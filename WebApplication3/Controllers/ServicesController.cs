@@ -88,17 +88,19 @@ namespace WebApplication3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AmountService,PaymentService,TotalPayment,TripDate")] Service service)
         {
-            if (id != service.Id)
-            {
-                return NotFound();
-            }
-
+           
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(service);
-                    await _context.SaveChangesAsync();
+                    if(await _context.Services.FirstOrDefaultAsync(s => s.Id == id)== null ) {
+                        return BadRequest();
+                    }else
+                    {
+                        _context.Update(service);
+                        await _context.SaveChangesAsync();
+                    }
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {

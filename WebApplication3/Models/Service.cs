@@ -9,7 +9,7 @@ namespace WebApplication3.Models
     {
         public int Id { get; set; }
         public int AmountService { get; set; }
-        public decimal PaymentService { get; set; }
+        public int PaymentService { get; set; }
         public DateTime TripDate { get; set; }
 
     }

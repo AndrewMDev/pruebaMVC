@@ -86,19 +86,23 @@ namespace WebApplication3.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Plate,Brand,Model")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("Plate,Brand,Model")] Vehicle vehicle)
         {
-            if (id != vehicle.Id)
-            {
-                return NotFound();
-            }
-
+           
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(vehicle);
-                    await _context.SaveChangesAsync();
+                    if (await _context.Vehicles.FirstOrDefaultAsync(s => s.Id == id) == null)
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        _context.Update(vehicle);
+                        await _context.SaveChangesAsync();
+                    }
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {

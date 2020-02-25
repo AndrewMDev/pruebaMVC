@@ -88,17 +88,20 @@ namespace WebApplication3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Surname,DNI,Birthday,Phone,Cellphone,Address")] Driver driver)
         {
-            if (id != driver.Id)
-            {
-                return NotFound();
-            }   
-
+           
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (await _context.Drivers.FirstOrDefaultAsync(s => s.Id == id) == null)
+                    {
+                        return BadRequest();
+                    }else
+                    {
                     _context.Update(driver);
                     await _context.SaveChangesAsync();
+
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
