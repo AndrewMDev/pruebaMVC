@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebApplication3.Context;
 using WebApplication3.Models;
@@ -21,12 +22,17 @@ namespace WebApplication3.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Drivers.ToListAsync());
+        }
+
+        public IActionResult Privacy()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Drivers()
         {
             return View();
         }
@@ -36,5 +42,18 @@ namespace WebApplication3.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public async Task<IActionResult> CreateService([Bind("Name,Surname,DNI,Birthday,Phone,Cellphone,Address")] Driver driver)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(driver);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(driver);
+        }
+
+
     }
 }

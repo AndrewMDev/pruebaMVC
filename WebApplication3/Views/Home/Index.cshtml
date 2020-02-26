@@ -1,9 +1,34 @@
-﻿@{
+﻿
+
+@{
+
     ViewData["Title"] = "Home Page";
+
 }
 
     <div class="text-center">
         <h1 class="display-4">Prueba de Idoneadad</h1>
         <p>@DateTime.Now</p>
-        <p> </p>
+
+
+        <p> Registrar servicio</p>
+        <form>
+            <div class="form-group">
+                <label for="driver">Name driver</label>
+                <input type="email" class="form-control"  placeholder="Javier Lozano">
+               
+            </div>
+            <div class="form-group">
+                <label for="services">Amount services</label>
+                <input type="email" class="form-control" placeholder="600">
+            </div>
+            <div class="form-check">
+                <label for="vehicle">Vehicle</label>
+                <input type="email" class="form-control" placeholder="XYU345">
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+
+
+
     </div>
